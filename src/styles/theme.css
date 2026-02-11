@@ -1,0 +1,165 @@
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Gamified To-Do App Design Tokens */
+  
+  /* Base colors */
+  --app-background: #0B1220;
+  --surface-1: #0F1B2D;
+  --surface-2: #13233A;
+  --border-stroke: #1E3352;
+  --text-primary: #EAF2FF;
+  --text-secondary: #A9B7D0;
+  --text-muted: #7F93B2;
+  
+  /* Accent */
+  --purple-accent: #8B5CF6;
+  --purple-accent-subtle: rgba(139, 92, 246, 0.2);
+  
+  /* Semantic colors */
+  --priority-high: #EF4444;
+  --priority-high-bg: rgba(239, 68, 68, 0.2);
+  --priority-medium: #F59E0B;
+  --priority-medium-bg: rgba(245, 158, 11, 0.2);
+  --priority-low: #22C55E;
+  --priority-low-bg: rgba(34, 197, 94, 0.2);
+  --overdue-warning: #F97316;
+  
+  /* Typography */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-size: 16px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  
+  /* Spacing */
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  
+  /* Radii */
+  --radius-sm: 12px;
+  --radius-md: 14px;
+  --radius-lg: 16px;
+  --radius-full: 999px;
+  
+  /* Legacy tokens for compatibility */
+  --background: var(--app-background);
+  --foreground: var(--text-primary);
+  --card: var(--surface-1);
+  --card-foreground: var(--text-primary);
+  --popover: var(--surface-1);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--purple-accent);
+  --primary-foreground: var(--text-primary);
+  --secondary: var(--surface-2);
+  --secondary-foreground: var(--text-secondary);
+  --muted: var(--surface-1);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--purple-accent);
+  --accent-foreground: var(--text-primary);
+  --destructive: var(--priority-high);
+  --destructive-foreground: var(--text-primary);
+  --border: var(--border-stroke);
+  --input: var(--border-stroke);
+  --input-background: var(--surface-1);
+  --ring: var(--purple-accent);
+  --radius: var(--radius-lg);
+}
+
+@theme inline {
+  --color-app-background: var(--app-background);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-border-stroke: var(--border-stroke);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-purple-accent: var(--purple-accent);
+  --color-purple-accent-subtle: var(--purple-accent-subtle);
+  --color-priority-high: var(--priority-high);
+  --color-priority-high-bg: var(--priority-high-bg);
+  --color-priority-medium: var(--priority-medium);
+  --color-priority-medium-bg: var(--priority-medium-bg);
+  --color-priority-low: var(--priority-low);
+  --color-priority-low-bg: var(--priority-low-bg);
+  --color-overdue-warning: var(--overdue-warning);
+  
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-ring: var(--ring);
+  --radius-sm: 12px;
+  --radius-md: 14px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+}
+
+@layer base {
+  * {
+    @apply border-border-stroke;
+  }
+
+  body {
+    @apply bg-app-background text-text-primary;
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    font-size: var(--font-size);
+  }
+
+  h1 {
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.5;
+  }
+
+  h2 {
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.5;
+  }
+
+  h3 {
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h4 {
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  label {
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  button {
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  input {
+    font-weight: var(--font-weight-normal);
+    line-height: 1.5;
+  }
+}
