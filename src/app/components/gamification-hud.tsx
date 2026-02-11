@@ -9,14 +9,15 @@ interface GamificationHUDProps {
 }
 
 export function GamificationHUD({ level, title, currentXP, maxXP, streak }: GamificationHUDProps) {
-  const xpPercentage = (currentXP / maxXP) * 100;
+  const xpPercentage = Math.min(100, Math.max(0, (currentXP / maxXP) * 100));
 
   return (
     <div className="bg-surface-2 border border-border-stroke rounded-[16px] p-4 backdrop-blur-sm bg-opacity-95">
-      <div className="flex items-center justify-between gap-6">
+      {/* Responsive: stacks on mobile, 3 clusters inline on sm+ */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
         {/* Left cluster - User info */}
         <div className="flex items-center gap-3">
-          <div className="w-11 h-11 rounded-full bg-surface-1 border border-border-stroke flex items-center justify-center">
+          <div className="w-11 h-11 rounded-full bg-surface-1 border border-border-stroke flex items-center justify-center flex-shrink-0">
             <User className="w-5 h-5 text-purple-accent" />
           </div>
           <div className="flex flex-col">
@@ -26,7 +27,7 @@ export function GamificationHUD({ level, title, currentXP, maxXP, streak }: Gami
         </div>
 
         {/* Center cluster - XP Progress */}
-        <div className="flex flex-col gap-1 flex-1 max-w-md">
+        <div className="flex flex-col gap-1 sm:flex-1 sm:max-w-md">
           <span className="text-[12px] text-text-secondary">
             XP {currentXP} / {maxXP}
           </span>
@@ -39,9 +40,11 @@ export function GamificationHUD({ level, title, currentXP, maxXP, streak }: Gami
         </div>
 
         {/* Right cluster - Streak */}
-        <div className="flex items-center gap-2 bg-surface-1 border border-border-stroke rounded-full px-3 py-2">
-          <Flame className="w-4 h-4 text-overdue-warning" />
-          <span className="text-[12px] font-medium text-text-primary">{streak} Day Streak</span>
+        <div className="flex justify-end sm:justify-start">
+          <div className="flex items-center gap-2 bg-surface-1 border border-border-stroke rounded-full px-3 py-2">
+            <Flame className="w-4 h-4 text-overdue-warning" />
+            <span className="text-[12px] font-medium text-text-primary">{streak} Day Streak</span>
+          </div>
         </div>
       </div>
     </div>

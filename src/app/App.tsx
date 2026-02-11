@@ -1,3 +1,5 @@
+// FILE: src/app/App.tsx
+
 import { useState, useEffect, useMemo } from 'react';
 import { GamificationHUD } from './components/gamification-hud';
 import { FilterPill } from './components/filter-pill';
@@ -41,7 +43,7 @@ function App() {
   useEffect(() => {
     const savedTasks = localStorage.getItem(STORAGE_KEY);
     const savedUserData = localStorage.getItem(USER_DATA_KEY);
-    
+
     if (savedTasks) {
       setTasks(JSON.parse(savedTasks));
     } else {
@@ -76,7 +78,8 @@ function App() {
         },
         {
           id: '4',
-          title: 'This is a very long quest title that demonstrates how the task card handles text wrapping when the title exceeds the available space and needs to wrap to multiple lines',
+          title:
+            'This is a very long quest title that demonstrates how the task card handles text wrapping when the title exceeds the available space and needs to wrap to multiple lines',
           completed: false,
           priority: 'low',
           dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
@@ -87,7 +90,7 @@ function App() {
       setTasks(sampleTasks);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(sampleTasks));
     }
-    
+
     if (savedUserData) {
       setUserData(JSON.parse(savedUserData));
     } else {
@@ -108,7 +111,7 @@ function App() {
 
   const addTask = () => {
     if (!newTaskTitle.trim()) {
-      setError('Quest name can\'t be empty.');
+      setError("Quest name can't be empty.");
       return;
     }
 
@@ -135,7 +138,7 @@ function App() {
       tasks.map((task) => {
         if (task.id === id) {
           const newCompleted = !task.completed;
-          
+
           // Award XP when completing a task
           if (newCompleted && !task.completed) {
             const newXP = userData.currentXP + task.xpReward;
@@ -200,9 +203,7 @@ function App() {
 
     // Apply search
     if (searchQuery.trim()) {
-      filtered = filtered.filter((task) =>
-        task.title.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+      filtered = filtered.filter((task) => task.title.toLowerCase().includes(searchQuery.toLowerCase()));
     }
 
     // Apply sort
@@ -210,7 +211,8 @@ function App() {
       if (sortBy === 'priority') {
         const priorityOrder = { high: 0, medium: 1, low: 2 };
         return priorityOrder[a.priority] - priorityOrder[b.priority];
-      } else if (sortBy === 'deadline') {
+      }
+      if (sortBy === 'deadline') {
         if (!a.dueDate && !b.dueDate) return 0;
         if (!a.dueDate) return 1;
         if (!b.dueDate) return -1;
@@ -224,7 +226,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-app-background py-6">
-      <div className="max-w-[1040px] mx-auto px-6">
+      <div className="mx-auto max-w-[1040px] px-4 sm:px-6">
         {/* Gamification HUD */}
         <GamificationHUD
           level={userData.level}
@@ -236,8 +238,9 @@ function App() {
 
         {/* Add Quest Section */}
         <div className="mt-6">
-          <div className="flex gap-3">
-            <div className="flex-1">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
+            {/* Title input (full width) */}
+            <div className="w-full sm:flex-1">
               <input
                 type="text"
                 placeholder="What is your next quest?"
@@ -247,37 +250,37 @@ function App() {
                   setError('');
                 }}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    addTask();
-                  }
+                  if (e.key === 'Enter') addTask();
                 }}
                 className="w-full h-11 px-3 rounded-[12px] bg-surface-1 border border-border-stroke text-text-primary placeholder:text-text-muted focus:outline-none focus:border-purple-accent transition-colors"
               />
-              {error && (
-                <p className="text-[12px] text-overdue-warning mt-2">{error}</p>
-              )}
+              {error && <p className="text-[12px] text-overdue-warning mt-2">{error}</p>}
             </div>
-            
-            <select
-              value={newTaskPriority}
-              onChange={(e) => setNewTaskPriority(e.target.value as 'high' | 'medium' | 'low')}
-              className="h-11 px-3 rounded-[12px] bg-surface-1 border border-border-stroke text-text-primary focus:outline-none focus:border-purple-accent transition-colors"
-            >
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-            </select>
 
-            <input
-              type="date"
-              value={newTaskDueDate}
-              onChange={(e) => setNewTaskDueDate(e.target.value)}
-              className="h-11 px-3 rounded-[12px] bg-surface-1 border border-border-stroke text-text-primary focus:outline-none focus:border-purple-accent transition-colors"
-            />
+            {/* Priority + Due date (2 columns on mobile, inline on sm+) */}
+            <div className="grid grid-cols-2 gap-3 sm:flex sm:items-center sm:gap-3">
+              <select
+                value={newTaskPriority}
+                onChange={(e) => setNewTaskPriority(e.target.value as 'high' | 'medium' | 'low')}
+                className="h-11 px-3 rounded-[12px] bg-surface-1 border border-border-stroke text-text-primary focus:outline-none focus:border-purple-accent transition-colors"
+              >
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
 
+              <input
+                type="date"
+                value={newTaskDueDate}
+                onChange={(e) => setNewTaskDueDate(e.target.value)}
+                className="h-11 px-3 rounded-[12px] bg-surface-1 border border-border-stroke text-text-primary focus:outline-none focus:border-purple-accent transition-colors"
+              />
+            </div>
+
+            {/* Add button (full width on mobile) */}
             <button
               onClick={addTask}
-              className="h-11 px-6 rounded-[12px] bg-purple-accent text-text-primary text-[14px] font-medium hover:bg-purple-accent/90 transition-all flex items-center gap-2 whitespace-nowrap"
+              className="h-11 w-full sm:w-auto sm:px-6 rounded-[12px] bg-purple-accent text-text-primary text-[14px] font-medium hover:bg-purple-accent/90 transition-all flex items-center justify-center gap-2 whitespace-nowrap"
             >
               <Plus className="w-4 h-4" />
               Add Quest
@@ -286,15 +289,11 @@ function App() {
         </div>
 
         {/* Controls Bar */}
-        <div className="mt-4 flex items-center justify-between gap-4">
-          {/* Filter Pills */}
-          <div className="flex items-center gap-2">
+        <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+          {/* Filter Pills (scrollable on mobile) */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-1">
             <FilterPill label="All" active={filter === 'all'} onClick={() => setFilter('all')} />
-            <FilterPill
-              label="Active"
-              active={filter === 'active'}
-              onClick={() => setFilter('active')}
-            />
+            <FilterPill label="Active" active={filter === 'active'} onClick={() => setFilter('active')} />
             <FilterPill
               label="Completed"
               active={filter === 'completed'}
@@ -303,12 +302,12 @@ function App() {
           </div>
 
           {/* Sort & Search */}
-          <div className="flex items-center gap-3">
-            <div className="relative">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-3">
+            <div className="relative w-full sm:w-auto">
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as SortType)}
-                className="h-11 pl-3 pr-8 rounded-[12px] bg-surface-1 border border-border-stroke text-text-secondary text-[14px] focus:outline-none focus:border-purple-accent transition-colors appearance-none cursor-pointer"
+                className="h-11 w-full sm:w-auto pl-3 pr-8 rounded-[12px] bg-surface-1 border border-border-stroke text-text-secondary text-[14px] focus:outline-none focus:border-purple-accent transition-colors appearance-none cursor-pointer"
               >
                 <option value="priority">Sort: Priority</option>
                 <option value="deadline">Sort: Deadline</option>
@@ -316,14 +315,14 @@ function App() {
               <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary pointer-events-none" />
             </div>
 
-            <div className="relative">
+            <div className="relative w-full sm:w-64">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
               <input
                 type="text"
                 placeholder="Search quests..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="h-11 pl-10 pr-3 w-64 rounded-[12px] bg-surface-1 border border-border-stroke text-text-primary placeholder:text-text-muted text-[14px] focus:outline-none focus:border-purple-accent transition-colors"
+                className="h-11 w-full pl-10 pr-3 rounded-[12px] bg-surface-1 border border-border-stroke text-text-primary placeholder:text-text-muted text-[14px] focus:outline-none focus:border-purple-accent transition-colors"
               />
             </div>
           </div>
